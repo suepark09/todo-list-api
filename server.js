@@ -78,18 +78,18 @@ app.put('/api/todos/:id', function (request, response) {
 
 
 // DELETE /api/todos/:id
-app.delete('/api/todos/:id') {
+app.delete('/api/todos/:id', function (request, response) {
     const todos = todoList.find(function (item) {
         return item.id === parseInt(request.params.id);
-    });
-    if (!todos) response.status(404).send('the to do was not found');
-
-    const index = todoList.indexOf(todos);
-    todoList.splice(index, 1);
-
-    response.send(todo);
-}
-
+     });
+     if (!todos) response.status(404).send('the to do was not found');
+ 
+     const index = todoList.indexOf(todos);
+     todoList.splice(index, 1);
+ 
+     response.send(todos);
+}) 
+    
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
