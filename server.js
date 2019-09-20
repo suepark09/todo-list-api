@@ -35,13 +35,8 @@ app.get("/api/todos/:id", function (request, response, nextFn) {
 // POST /api/todos
 
 app.post("/api/todos", function (request, response, nextFn) {
-    const schema = {
-        todo: Joi.string().min(3).required()
-    };
-
-    const result = Joi. validate(request.body, schema);
-
-    if (result.error) {
+    const {error} = validateTodo(request.body)
+    if (error) {
         response.status(400).send(result.error.details[0].message);
         return;
     }
@@ -55,24 +50,45 @@ app.post("/api/todos", function (request, response, nextFn) {
     response.send(todos);
 })
 
+//validation function
+function validateTodo (todo) {
+     const schema = {
+        todo: Joi.string().min(3).required()
+     };
+     return Joi.validate(todo, schema);
+}
+
 // PUT /api/todos/:id
 app.put('/api/todos/:id', function (request, response) {
     const todos = todoList.find(function (item) {
         return item.id === parseInt(request.params.id);
     })
+    if (!todos) response.status(404).send('the to do was not found');
 
-    if (!todos) {
-        response.status(404).send('the to do was not found');
-    } 
+    const {error} = validateTodo(request.body)
+    if (error) {
+        response.status(400).send(result.error.details[0].message);
+        return;
+    }
 
-    todoList.todos = request.body.todos;
+    todos.todo = request.body.todo;
     response.send(todos);
 
 })
 
 
 // DELETE /api/todos/:id
-app.delete('/api/todos/:id')
+app.delete('/api/todos/:id') {
+    const todos = todoList.find(function (item) {
+        return item.id === parseInt(request.params.id);
+    });
+    if (!todos) response.status(404).send('the to do was not found');
+
+    const index = todoList.indexOf(todos);
+    todoList.splice(index, 1);
+
+    response.send(todo);
+}
 
 const port = process.env.PORT || 3000;
 
