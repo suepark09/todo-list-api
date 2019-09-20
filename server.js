@@ -79,6 +79,7 @@ app.put('/api/todos/:id', function (request, response) {
 
 // DELETE /api/todos/:id
 app.delete('/api/todos/:id', function (request, response) {
+    //find item id
     const todos = todoList.find(function (item) {
         return item.id === parseInt(request.params.id);
      });
