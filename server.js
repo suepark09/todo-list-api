@@ -5,10 +5,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.static(__dirname + '/public'));
+
 var todoList = [
     {
         id: 1,
-        todo: "Implement a REST API"
+        todo: "Wash dishes"
     }
 ];
 
